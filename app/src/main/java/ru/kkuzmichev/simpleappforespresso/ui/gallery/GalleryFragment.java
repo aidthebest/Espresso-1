@@ -73,7 +73,7 @@ public class GalleryFragment extends Fragment {
                     EspressoIdlingResources.decrement();
                 }
             }
-        }, 1500);
+        }, 3500);
     }
 
     @Override

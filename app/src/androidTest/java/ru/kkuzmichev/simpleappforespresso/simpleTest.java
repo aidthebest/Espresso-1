@@ -18,7 +18,10 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.appcompat.widget.ActionMenuView;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageButton$InspectionCompanion;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
@@ -79,7 +82,7 @@ public class simpleTest {
         Intents.init();
         settingsItem.perform(click());
         intended(allOf(
-                hasData("http://google.com"),
+                hasData("https://google.com"), // На эмуляторе нет доступа к аккаунту гугл
                 hasAction(Intent.ACTION_VIEW)
         ));
         Intents.release();
@@ -87,20 +90,13 @@ public class simpleTest {
 
 
     @Test
-    public void idlingsWork() {
-
-        ViewInteraction menu = onView(withParent(isAssignableFrom(AppCompatImageButton.class)));
+    public void idlingWork() {
+        ViewInteraction menu = onView(isAssignableFrom(AppCompatImageButton.class));
         menu.check(matches(isDisplayed()));
         menu.perform(click());
         ViewInteraction gallery = onView(withId(R.id.nav_gallery));
-        ViewInteraction recycleList = onView(withId(R.id.recycle_view));
+        gallery.perform(click());
         ViewInteraction galleryItem = onView(allOf(withId(R.id.item_number), withText("7")));
-
-        gallery.perform(click());
-
-        gallery.check(matches(isDisplayed()));
-        gallery.perform(click());
-        galleryItem.check(
-                matches(isDisplayed()));
+        galleryItem.check(matches(isDisplayed()));
     }
 }
